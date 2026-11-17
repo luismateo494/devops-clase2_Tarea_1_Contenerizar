@@ -1,0 +1,16 @@
+# =============================================================
+# ❌ Versión "ingenua" · SOLO PARA COMPARAR EN CLASE
+# Problemas a señalar:
+#   1. node:22 completo (~1 GB) en vez de alpine
+#   2. COPY . . antes de npm install → cualquier cambio de código
+#      invalida la caché e reinstala todas las dependencias
+#   3. npm install (no reproducible) e incluye devDependencies
+#   4. Corre como root
+# Uso:  docker build -f Dockerfile.ingenuo -t taskflow-api:ingenuo .
+# =============================================================
+FROM node:22
+WORKDIR /app
+COPY . .
+RUN npm install
+EXPOSE 3000
+CMD ["node", "src/server.js"]

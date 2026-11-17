@@ -1,0 +1,43 @@
+services:
+  mongo:
+    image: mongo:7
+    container_name: taskflow-mongo
+    restart: unless-stopped
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    # Omitimos "ports" a propósito: solo debe ser accesible dentro de la red de Docker
+
+  api:
+    build: 
+      context: ./api
+    container_name: taskflow-api
+    restart: unless-stopped
+    environment:
+      - PORT=3000
+      - MONGO_URI=${MONGO_URI}
+      - CORS_ORIGIN=${CORS_ORIGIN}
+    ports:
+      - "3000:3000"
+    depends_on:
+      mongo:
+        condition: service_healthy
+
+  web:
+    build:
+      context: ./web
+      args:
+        - VITE_API_URL=${VITE_API_URL}
+    container_name: taskflow-web
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    depends_on:
+      - api
+
+volumes:
+  mongo_data:
