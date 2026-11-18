@@ -118,5 +118,5 @@ Aplicación web para gestión de tareas (React + Node.js + MongoDB) contenerizad
 
 1. Clona el repositorio y entra a la carpeta:
    ```bash
-   git clone <URL_DE_TU_REPO>
+   git clone <URL_repositorio>
    cd taskflow
