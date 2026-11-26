@@ -16,15 +16,15 @@ jobs:
         with:
           node-version: 22
           cache: 'npm'
-          cache-dependency-path: api/package-lock.json
+          cache-dependency-path: taskflow/api/package-lock.json
       - name: Install dependencies
-        working-directory: ./api
+        working-directory: ./taskflow/api
         run: npm ci
       - name: Lint
-        working-directory: ./api
+        working-directory: ./taskflow/api
         run: npm run lint
       - name: Test
-        working-directory: ./api
+        working-directory: ./taskflow/api
         run: npm test
 
   web:
@@ -36,18 +36,18 @@ jobs:
         with:
           node-version: 22
           cache: 'npm'
-          cache-dependency-path: web/package-lock.json
+          cache-dependency-path: taskflow/web/package-lock.json
       - name: Install dependencies
-        working-directory: ./web
+        working-directory: ./taskflow/web
         run: npm ci
       - name: Lint
-        working-directory: ./web
+        working-directory: ./taskflow/web
         run: npm run lint
       - name: Test
-        working-directory: ./web
+        working-directory: ./taskflow/web
         run: npm test
       - name: Build
-        working-directory: ./web
+        working-directory: ./taskflow/web
         run: npm run build
 
   docker:
@@ -56,4 +56,4 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Build Docker Images
-        run: docker compose build
+        run: docker compose -f taskflow/docker-compose.yml build
