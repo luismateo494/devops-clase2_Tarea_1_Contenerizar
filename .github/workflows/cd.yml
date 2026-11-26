@@ -21,11 +21,11 @@ jobs:
       matrix:
         include:
           - image: taskflow-api
-            context: ./api
-            dockerfile: ./api/Dockerfile
+            context: ./taskflow/api
+            dockerfile: ./taskflow/api/Dockerfile
           - image: taskflow-web
-            context: ./web
-            dockerfile: ./web/Dockerfile
+            context: ./taskflow/web
+            dockerfile: ./taskflow/web/Dockerfile
 
     steps:
       - name: Checkout repository
