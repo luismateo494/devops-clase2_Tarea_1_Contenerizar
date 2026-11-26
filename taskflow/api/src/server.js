@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const tareasRouter = require('./routes/tareas');
 
 // Toda la configuración llega por variables de entorno (nada escrito en el código)
+const variableInutil = 123
 const PORT = process.env.PORT || 3000;
 const MONGO_URI = process.env.MONGO_URI;
 const CORS_ORIGIN = process.env.CORS_ORIGIN || 'http://localhost:8080,http://localhost:5173';
