@@ -120,3 +120,36 @@ Aplicación web para gestión de tareas (React + Node.js + MongoDB) contenerizad
    ```bash
    git clone <URL_repositorio>
    cd taskflow
+
+
+## Pipeline CI/CD (GitHub Actions)
+
+Este proyecto implementa un flujo de trabajo profesional para garantizar la calidad del código y automatizar el despliegue.
+
+--Integración Continua (CI)-
+En cada Pull Request hacia la rama main, se ejecuta el workflow ci.yml:
+
+Job api: Instala dependencias, ejecuta el linter (lint) y los tests (test).
+
+Job web: Instala dependencias, ejecuta el linter, los tests y compila el proyecto (build).
+
+Job docker: Depende de que los jobs anteriores pasen. Construye las imágenes con docker compose build para asegurar que el stack no se rompa.
+
+La rama main está protegida y exige que estos 3 checks pasen obligatoriamente antes de permitir un merge.
+
+Despliegue Continuo (CD)
+Al hacer merge a main o al crear un tag de versión (ej: v1.0.0), se ejecuta el workflow cd.yml:
+
+Construye las imágenes de Docker de la API y del Frontend.
+
+Publica las imágenes automáticamente en GitHub Container Registry (GHCR).
+
+Utiliza caché de capas (type=gha) para acelerar futuras construcciones.
+
+Estrategia de Tags de Imágenes
+Las imágenes en GHCR se publican con los siguientes tags:
+
+sha-<commit> y latest: En cada push a la rama main.
+
+1.0.0 y 1.0: Al crear un tag de Git como v1.0.0.
+
